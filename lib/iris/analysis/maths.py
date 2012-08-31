@@ -573,6 +573,37 @@ def log10(cube, update_history=True, in_place=False):
     return _math_op_common(cube, numpy.log10, cube.units.log(10),
                            history="lg", update_history=update_history, in_place=in_place)
 
+
+def exp(cube, update_history=True, in_place=False):
+    """
+    Calculate the exponent (Euler's number to the power of) the cube.  The cube
+    must be dimensionless.
+    
+    Args:
+
+    * cube:
+        An instance of :class:`iris.cube.Cube`.
+
+    Kwargs:
+
+    * update_history:
+        Whether to add an entry into the resulting cube's "history" coordinate.
+    * in_place:
+        Whether to create a new Cube, or alter the given "cube".
+
+    Returns:
+        An instance of :class:`iris.cube.Cube`.
+
+    Raises:
+        An instance of ValueError if the cube is not dimensionless
+    
+    """
+    if not cube.unit.dimensionless:
+        raise ValueError("Cube must be dimensionless to find exponent; units are %s"
+                           % cube.unit)
+    return iris.analysis.maths._math_op_common(cube, numpy.exp, cube.unit,
+                           history="exp", update_history=update_history, in_place=in_place)
+
     
 def _math_op_common(cube, math_op, new_unit, history, update_history, in_place):
 
